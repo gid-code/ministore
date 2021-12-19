@@ -30,6 +30,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.ministore.ui.Screen
 import com.example.ministore.ui.component.StandardTextField
 import com.example.ministore.ui.login.LoginScreen
 
@@ -134,9 +135,13 @@ fun RegisterScreen(
             )
 
             Spacer(Modifier.height(20.dp))
+
             //signup button
             TextButton(
-                onClick = {},
+                onClick = {
+                    navController.popBackStack()
+                    navController.navigate(Screen.HomeScreen.route)
+                },
                 modifier = Modifier
                     .fillMaxWidth()
                     .size(width = 280.dp, height = 48.dp)

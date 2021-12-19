@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">MiniStore</string>
+    <string name="open_cart">Open Cart</string>
 </resources>

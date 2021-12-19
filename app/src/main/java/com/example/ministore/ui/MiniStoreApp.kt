@@ -10,6 +10,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.ministore.ui.component.MiniStoreScaffold
 import com.example.ministore.ui.theme.MiniStoreTheme
 
 @Composable
@@ -22,10 +23,20 @@ fun MiniStoreApp(){
         ) {
             val navController = rememberNavController()
             val navBackStackEntry by navController.currentBackStackEntryAsState()
-            val scaffoldState = rememberScaffoldState()
-            val currentRoute = navBackStackEntry?.destination?.route ?: Screen.CartScreen.route
-            Scaffold(
-                scaffoldState = scaffoldState,
+//            val scaffoldState = rememberScaffoldState()
+//            val currentRoute = navBackStackEntry?.destination?.route ?: Screen.CartScreen.route
+            MiniStoreScaffold(
+                navController = navController,
+                showBottomBar = navBackStackEntry?.destination?.route in listOf(
+                    Screen.HomeScreen.route,
+                    Screen.PromotionScreen.route,
+                    Screen.ProfileScreen.route,
+                    Screen.CategoryScreen.route
+                ),
+                modifier = Modifier.fillMaxSize(),
+                onFabClick = {
+                    navController.navigate(Screen.CartScreen.route)
+                }
             ) {
                 MiniStoreNavGraph(
                     navController = navController
