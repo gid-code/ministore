@@ -29,6 +29,8 @@ import coil.transform.CircleCropTransformation
 import com.example.ministore.data.model.ProductCategory
 import com.example.ministore.data.model.ProductItem
 import com.example.ministore.data.repository.CategoryRepository
+import com.example.ministore.ui.Screen
+import com.example.ministore.ui.component.ProductItem
 import com.example.ministore.ui.login.LoginScreen
 
 @Composable
@@ -43,56 +45,7 @@ fun HomeScreen(
     ){
         products.forEach {
             item {
-                Card(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .size(500.dp, 300.dp)
-//                        .padding(8.dp)
-                        ,
-                    shape = RoundedCornerShape(20.dp),
-                    elevation = 8.dp,
-                    backgroundColor = Color(0XFFF4F5F7)
-                ) {
-                    Column(
-                        modifier = Modifier
-                            .fillMaxSize(),
-                        verticalArrangement = Arrangement.Top,
-                        horizontalAlignment = Alignment.Start
-                    ) {
-                        Image(
-                            painter = rememberImagePainter(
-                                data = it.img,
-                                builder = {
-                                    crossfade(true)
-                                }
-                            ),
-                            contentDescription = null,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .size(220.dp, 200.dp),
-                            contentScale = ContentScale.Crop
-                        )
-                        Text(
-                            text = it.name,
-                            style = MaterialTheme.typography.h3,
-                            fontSize = 20.sp,
-                            fontWeight = FontWeight.W500,
-                            modifier = Modifier.padding(start = 12.dp, top = 8.dp, end = 12.dp, bottom = 8.dp)
-                        )
-
-                        Text(
-                            text = "GHS ${it.price}",
-                            style = MaterialTheme.typography.subtitle1,
-                            fontSize = 18.sp,
-                            fontWeight = FontWeight.W400,
-                            modifier = Modifier.padding(start = 12.dp, top = 2.dp, end = 12.dp, bottom = 5.dp)
-                        )
-                    }
-                    PaddingValues(12.dp)
-
-                }
-
-
+                ProductItem(it) { navController.navigate("${Screen.ProductDetailsScreen.route}/${it.id}") }
             }
         }
     }

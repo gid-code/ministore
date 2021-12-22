@@ -9,4 +9,6 @@ sealed class Screen(val route: String){
     object CategoryScreen : Screen("cat_screen")
     object PromotionScreen : Screen("promo_screen")
     object ProfileScreen : Screen("profile_screen")
+    object ProductDetailsScreen : Screen("details_screen")
+    object CategoryProducts : Screen("category_product_screen")
 }
