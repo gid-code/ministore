@@ -2,21 +2,16 @@ package com.example.ministore.ui.login
 
 import android.content.Intent
 import android.content.res.Configuration
-import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.with
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Email
 import androidx.compose.material.icons.outlined.Phone
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -27,6 +22,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -36,11 +32,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.ministore.R
 import com.example.ministore.ui.Screen
 import com.example.ministore.ui.component.StandardTextField
 import com.example.ministore.ui.theme.MiniStoreTheme
+import com.example.ministore.ui.theme.PrimaryBlue
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 @Composable
 fun LoginScreen(
@@ -61,6 +61,15 @@ fun LoginScreen(
             else -> {
                 errorState.value = false
                 errorMessage.value = ""
+
+                isSubmitting.value = true
+
+                navController.navigate(Screen.HomeScreen.route){
+                    popUpTo(Screen.LoginScreen.route){
+                        inclusive = true
+                    }
+                }
+
             }
         }
     }
@@ -77,6 +86,9 @@ fun LoginScreen(
                 .align(Alignment.Center)
         ){
 
+            Image(painterResource(id = R.drawable.shopping),
+            contentDescription = null)
+            Spacer(modifier = Modifier.height(12.dp))
             Text(
                 text  = "Login",
                 style = MaterialTheme.typography.h2,
@@ -116,7 +128,7 @@ fun LoginScreen(
                     .size(width = 280.dp, height = 48.dp)
                     .clip(RoundedCornerShape(20))
                     .focusable(true)
-                    .background(Color(0xFF295BE0)),
+                    .background(PrimaryBlue),
                 content = {
                     if (isSubmitting.value){
                         CircularProgressIndicator(modifier = Modifier.size(36.dp),color = Color.White)

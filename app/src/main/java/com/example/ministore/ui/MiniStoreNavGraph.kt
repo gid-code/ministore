@@ -10,6 +10,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.ministore.data.viewmodel.CartViewModel
+import com.example.ministore.ui.cart.CardPaymentScreen
 import com.example.ministore.ui.cart.CartScreen
 import com.example.ministore.ui.category.CategoryProductsScreen
 import com.example.ministore.ui.category.CategoryScreen
@@ -24,7 +25,7 @@ import com.example.ministore.ui.register.RegisterScreen
 @Composable
 fun MiniStoreNavGraph(
     navController: NavHostController = rememberNavController(),
-    startDestination: String = Screen.HomeScreen.route
+    startDestination: String = Screen.LoginScreen.route
 ){
     NavHost(
         navController = navController,
@@ -42,7 +43,7 @@ fun MiniStoreNavGraph(
             )
         }
         composable(Screen.CartScreen.route){
-            CartScreen(hiltViewModel<CartViewModel>())
+            CartScreen(navController,hiltViewModel<CartViewModel>())
         }
         composable(Screen.ProfileScreen.route){
             ProfileScreen()
@@ -52,6 +53,9 @@ fun MiniStoreNavGraph(
         }
         composable(Screen.PromotionScreen.route){
             PromoScreen()
+        }
+        composable(Screen.PaymentScreen.route){
+            CardPaymentScreen(navController)
         }
         composable(
             "${Screen.ProductDetailsScreen.route}/{productId}",
@@ -64,7 +68,7 @@ fun MiniStoreNavGraph(
             entry ->
             val prodID = entry.arguments?.getInt("productId")
             val product = hiltViewModel<HomeViewModel>().getProduct(prodID!!)
-            ProductDetailsScreen(product, hiltViewModel<CartViewModel>())
+            ProductDetailsScreen(product, hiltViewModel<CartViewModel>(),navController)
         }
         composable(
             "${Screen.CategoryProducts.route}/{categoryId}",

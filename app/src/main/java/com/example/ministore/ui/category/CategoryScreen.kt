@@ -7,10 +7,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -37,39 +34,48 @@ fun CategoryScreen(
     homeViewModel: HomeViewModel
 ){
     val categories : List<ProductCategory> = homeViewModel.categories
-    LazyVerticalGrid(
-        contentPadding = PaddingValues(horizontal = 5.dp, vertical = 8.dp),
-        cells = GridCells.Fixed(2) ){
-        categories.forEach {
-            item {
-                Card(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .size(150.dp)
-                        .padding(8.dp)
-                        .clickable { navController.navigate("${Screen.CategoryProducts.route}/${it.id}") }
-                    ,
-                    shape = RoundedCornerShape(20.dp),
-                    elevation = 8.dp,
-                    backgroundColor = Color(
-                        red = Random.nextInt(0, 255),
-                        green = Random.nextInt(0, 255),
-                        blue = Random.nextInt(0, 255)
-                    )
-                ){
-                    Box(
-                        contentAlignment = Alignment.Center
-                    ){
-                        Text(it.name,
-                            style = MaterialTheme.typography.h3,
-                            fontSize = 20.sp,
-                            fontWeight = FontWeight.W500,
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text("Categories") }
+            )
+        }
+    ){
+        LazyVerticalGrid(
+            contentPadding = PaddingValues(horizontal = 5.dp, vertical = 8.dp),
+            cells = GridCells.Fixed(2) ){
+            categories.forEach {
+                item {
+                    Card(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .size(150.dp)
+                            .padding(8.dp)
+                            .clickable { navController.navigate("${Screen.CategoryProducts.route}/${it.id}") }
+                        ,
+                        shape = RoundedCornerShape(20.dp),
+                        elevation = 8.dp,
+                        backgroundColor = Color(
+                            red = Random.nextInt(0, 255),
+                            green = Random.nextInt(0, 255),
+                            blue = Random.nextInt(0, 255)
                         )
+                    ){
+                        Box(
+                            contentAlignment = Alignment.Center
+                        ){
+                            Text(it.name,
+                                style = MaterialTheme.typography.h3,
+                                fontSize = 20.sp,
+                                fontWeight = FontWeight.W500,
+                            )
+                        }
                     }
                 }
             }
         }
     }
+
 }
 
 @Preview(backgroundColor = 0xFFFFFF, uiMode = Configuration.UI_MODE_NIGHT_YES, device = Devices.PIXEL_4 )

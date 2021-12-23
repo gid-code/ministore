@@ -26,9 +26,8 @@ fun RowScope.MiniStoreBottomNavItem(
     icon: ImageVector? = null,
     contentDescription: String? = null,
     selected: Boolean = false,
-    selectedColor: Color = Color.Red,
-//    selectedColor: Color = MaterialTheme.colors.primary,
-    unselectedColor: Color = HintGray,
+    selectedColor: Color = Color.White,
+    unselectedColor: Color = Color.DarkGray,
     enabled: Boolean = true,
     onClick: () -> Unit
 ){

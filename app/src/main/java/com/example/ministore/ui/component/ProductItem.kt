@@ -43,7 +43,7 @@ fun ProductItem(
         ) {
             Image(
                 painter = rememberImagePainter(
-                    data = item.img,
+                    data = item.img[0],
                     builder = {
                         crossfade(true)
                     }
@@ -59,12 +59,14 @@ fun ProductItem(
                 style = MaterialTheme.typography.h3,
                 fontSize = 20.sp,
                 fontWeight = FontWeight.W500,
+                color = Color.Black,
                 modifier = Modifier.padding(start = 12.dp, top = 8.dp, end = 12.dp, bottom = 8.dp)
             )
             Text(
                 text = "GHS ${item.price}",
                 style = MaterialTheme.typography.subtitle1,
                 fontSize = 18.sp,
+                color = Color(0xFF525F7F),
                 fontWeight = FontWeight.W400,
                 modifier = Modifier.padding(start = 12.dp, top = 2.dp, end = 12.dp, bottom = 5.dp)
             )

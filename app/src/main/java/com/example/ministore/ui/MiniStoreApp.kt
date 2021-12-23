@@ -23,8 +23,6 @@ fun MiniStoreApp(){
         ) {
             val navController = rememberNavController()
             val navBackStackEntry by navController.currentBackStackEntryAsState()
-//            val scaffoldState = rememberScaffoldState()
-//            val currentRoute = navBackStackEntry?.destination?.route ?: Screen.CartScreen.route
             MiniStoreScaffold(
                 navController = navController,
                 showBottomBar = navBackStackEntry?.destination?.route in listOf(

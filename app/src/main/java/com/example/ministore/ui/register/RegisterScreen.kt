@@ -1,6 +1,7 @@
 package com.example.ministore.ui.register
 
 import android.content.res.Configuration
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.*
@@ -21,6 +22,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -30,9 +32,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.ministore.R
+import com.example.ministore.data.model.User
 import com.example.ministore.ui.Screen
 import com.example.ministore.ui.component.StandardTextField
 import com.example.ministore.ui.login.LoginScreen
+import io.paperdb.Paper
 
 @Composable
 fun RegisterScreen(
@@ -43,9 +48,45 @@ fun RegisterScreen(
     val phone = remember { mutableStateOf( "")}
     val localFocusManager = LocalFocusManager.current
     val isSubmitting = remember { mutableStateOf(false) }
+    val errorState = remember { mutableStateOf(false) }
     val errorMessage = remember { mutableStateOf("") }
     val emailErrMsg = remember { mutableStateOf("") }
     val phoneErrMsg = remember { mutableStateOf("")}
+
+    //register
+    val registerFun: ()->Unit = {
+
+            if(phone.value.isEmpty()) {
+                errorState.value = true
+                phoneErrMsg.value = "Phone required"
+            }
+            if(email.value.isEmpty()) {
+                errorState.value = true
+                emailErrMsg.value = "Email required"
+            }
+            if(fullname.value.isEmpty()) {
+                errorState.value = true
+                errorMessage.value = "Full name required"
+            }
+            else{
+                errorState.value = false
+                errorMessage.value = ""
+                phoneErrMsg.value = ""
+                emailErrMsg.value = ""
+                isSubmitting.value = true
+
+                User(fullname.value,email.value, phone.value)
+
+                navController.navigate(Screen.HomeScreen.route){
+                    popUpTo(Screen.LoginScreen.route){
+                        inclusive = true
+                    }
+                }
+
+            }
+
+    }
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -57,6 +98,10 @@ fun RegisterScreen(
                 .fillMaxSize()
                 .align(Alignment.Center)
         ){
+            Image(
+                painterResource(id = R.drawable.shopping_res),
+                contentDescription = null)
+            Spacer(modifier = Modifier.height(12.dp))
             Text(
                 text  = "Sign Up",
                 style = MaterialTheme.typography.h2,
@@ -139,8 +184,8 @@ fun RegisterScreen(
             //signup button
             TextButton(
                 onClick = {
-                    navController.popBackStack()
-                    navController.navigate(Screen.HomeScreen.route)
+
+                    registerFun()
                 },
                 modifier = Modifier
                     .fillMaxWidth()

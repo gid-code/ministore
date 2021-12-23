@@ -7,7 +7,7 @@ import javax.inject.Inject
 class CategoryRepository @Inject constructor(
 
 ) {
-    fun getProducts(): List<ProductCategory> = productCollection
+    fun getProducts(): List<ProductCategory> = productCollection.shuffled()
     fun getProduct(productId: Int) = products.find { it.id == productId }!!
     fun getCategory(categoryId: Int) = productCollection.find { it.id == categoryId }!!
 }

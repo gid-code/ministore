@@ -1,7 +1,9 @@
 package com.example.ministore.ui.component
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -19,6 +21,7 @@ import androidx.navigation.NavGraph
 import com.example.ministore.data.model.BottomNavItem
 import com.example.ministore.ui.Screen
 import com.example.ministore.R
+import com.example.ministore.ui.theme.PrimaryBlue
 
 @Composable
 fun MiniStoreScaffold(
@@ -56,13 +59,13 @@ fun MiniStoreScaffold(
             if (showBottomBar) {
                 BottomAppBar(
                     modifier = Modifier.fillMaxWidth(),
-                    backgroundColor = Color.Blue,
+                    backgroundColor = PrimaryBlue,
                     cutoutShape = CircleShape,
                     elevation = 5.dp
                 ) {
                     BottomNavigation(
                         modifier = Modifier.fillMaxWidth(),
-                        backgroundColor = Color.Blue,
+                        backgroundColor = PrimaryBlue,
                     ){
                         bottomNavItems.forEachIndexed { index, bottomNavItem ->
                            MiniStoreBottomNavItem(
@@ -71,7 +74,9 @@ fun MiniStoreScaffold(
                                selected = bottomNavItem.route == navController.currentDestination?.route,
                                enabled = bottomNavItem.icon != null
                            ) {
-                               if (navController.currentDestination?.route != bottomNavItem.route) {
+                               if (navController.currentDestination?.route != bottomNavItem.route &&
+                                   bottomNavItem.route != Screen.PromotionScreen.route &&
+                                   bottomNavItem.route != Screen.ProfileScreen.route) {
                                    navController.navigate(bottomNavItem.route){
                                        launchSingleTop = true
                                        restoreState = true
@@ -103,7 +108,9 @@ fun MiniStoreScaffold(
         floatingActionButtonPosition = FabPosition.Center,
         modifier = modifier
     ) {
-        content()
+//        Box(modifier = Modifier.padding(it)){
+            content()
+//        }
     }
 }
 

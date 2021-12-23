@@ -16,11 +16,14 @@ import androidx.navigation.compose.rememberNavController
 import com.example.ministore.ui.MiniStoreApp
 import com.example.ministore.ui.theme.MiniStoreTheme
 import dagger.hilt.android.AndroidEntryPoint
+import io.paperdb.Paper
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        Paper.init(this)
         setContent {
             MiniStoreApp()
         }

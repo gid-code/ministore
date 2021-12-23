@@ -6,10 +6,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -38,14 +35,22 @@ fun HomeScreen(
     navController: NavController,
     homeViewModel: HomeViewModel
 ){
-    val products : List<ProductItem> = homeViewModel.categories.flatMap { it.products.toList() }.shuffled()
-    LazyColumn(
-        contentPadding = PaddingValues(horizontal = 10.dp, vertical = 8.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp),
-    ){
-        products.forEach {
-            item {
-                ProductItem(it) { navController.navigate("${Screen.ProductDetailsScreen.route}/${it.id}") }
+    val products : List<ProductItem> = homeViewModel.categories.flatMap { it.products.toList() }
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text("Home") }
+            )
+        }
+    ) {
+        LazyColumn(
+            contentPadding = PaddingValues(horizontal = 10.dp, vertical = 8.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp),
+        ){
+            products.forEach {
+                item {
+                    ProductItem(it) { navController.navigate("${Screen.ProductDetailsScreen.route}/${it.id}") }
+                }
             }
         }
     }
