@@ -1,5 +1,6 @@
 package com.example.ministore.ui
 
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
@@ -18,14 +19,16 @@ import com.example.ministore.ui.home.HomeScreen
 import com.example.ministore.ui.home.HomeViewModel
 import com.example.ministore.ui.home.ProductDetailsScreen
 import com.example.ministore.ui.login.LoginScreen
+import com.example.ministore.ui.login.OnBoardingScreen
 import com.example.ministore.ui.profile.ProfileScreen
 import com.example.ministore.ui.promo.PromoScreen
 import com.example.ministore.ui.register.RegisterScreen
 
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun MiniStoreNavGraph(
     navController: NavHostController = rememberNavController(),
-    startDestination: String = Screen.LoginScreen.route
+    startDestination: String = Screen.OnboardingScreen.route
 ){
     NavHost(
         navController = navController,
@@ -33,6 +36,12 @@ fun MiniStoreNavGraph(
     ){
         composable(Screen.LoginScreen.route){
             LoginScreen(navController)
+        }
+        composable(Screen.OnboardingScreen.route){
+            OnBoardingScreen(
+                {navController.navigate(Screen.LoginScreen.route){popUpTo(Screen.OnboardingScreen.route){inclusive=true} } },
+                {navController.navigate(Screen.LoginScreen.route){popUpTo(Screen.OnboardingScreen.route){inclusive=true} } }
+            )
         }
         composable(Screen.RegisterScreen.route){
             RegisterScreen(navController)
