@@ -50,6 +50,7 @@ fun LoginScreen(
     val isSubmitting = remember { mutableStateOf(false) }
     val errorState = remember { mutableStateOf(false) }
     val phone = remember { mutableStateOf( "")}
+    val countryCode = remember { mutableStateOf("+233")}
     val errorMessage = remember { mutableStateOf("") }
 
     val loginFun: ()->Unit = {
@@ -57,6 +58,10 @@ fun LoginScreen(
             phone.value.isEmpty() -> {
                 errorState.value = true
                 errorMessage.value = "Phone required"
+            }
+            phone.value.length < 9 || phone.value.length > 10 ->{
+                errorState.value = true
+                errorMessage.value = "Phone not valid"
             }
             else -> {
                 errorState.value = false
@@ -99,26 +104,82 @@ fun LoginScreen(
             Spacer(modifier = Modifier.height(12.dp))
 
             //phone textfield
-            StandardTextField(
-                error = errorMessage.value,
-                text = phone.value,
-                onValueChange = {
-                    phone.value = it
-                },
-                leadingIcon =  Icons.Outlined.Phone,
-                singleLine = true,
-                hint = "Your Phone Number",
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Phone,
-                    imeAction = ImeAction.Done
-                ),
-                keyboardActions = KeyboardActions(
-                    onDone = {
-                        localFocusManager.clearFocus()
-                        loginFun()
-                    }
-                ),
-            )
+            if (errorState.value){
+                Text(
+                    text = errorMessage.value,
+                    style = MaterialTheme.typography.subtitle1.copy(
+                        color = Color.Red,
+                        fontSize = 12.sp
+                    )
+                )
+            }
+            Row(
+                horizontalArrangement = Arrangement.Start,
+                verticalAlignment = Alignment.CenterVertically
+            ){
+                Image(
+                    Icons.Outlined.Phone,
+                    contentDescription = "phone",
+//                    modifier = Modifier.h
+                )
+
+
+                TextField(
+                    modifier= Modifier.fillMaxWidth(0.3f),
+                    value = countryCode.value,
+                    onValueChange = {
+                        countryCode.value = it
+                    },
+                    textStyle = MaterialTheme.typography.h2.copy(
+                        color = Color.Black,
+                        fontSize = 20.sp
+                    ),
+                    colors = TextFieldDefaults.textFieldColors(
+                        textColor = Color.Blue,
+                        disabledTextColor = Color.Transparent,
+                        backgroundColor = Color.Transparent,
+                        focusedIndicatorColor = Color.Blue,
+                        unfocusedIndicatorColor = Color.Gray,
+                        disabledIndicatorColor = Color.Transparent,
+                        errorIndicatorColor = Color.Red
+                    ),
+                )
+
+                TextField(
+                    modifier= Modifier.fillMaxWidth(),
+                    value = phone.value,
+                    onValueChange = {
+                        phone.value = it
+                    },
+                    placeholder = {
+                        Text(
+                            "Phone Number",
+                            style = MaterialTheme.typography.h2,
+                            fontSize = 18.sp,
+                            fontWeight = FontWeight.W400,
+                        )
+                    },
+                    textStyle = MaterialTheme.typography.h2.copy(
+                        color = Color.Black,
+                        fontSize = 20.sp
+                    ),
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Phone,
+                    ),
+                    isError = errorMessage.value.isNotEmpty(),
+                    colors = TextFieldDefaults.textFieldColors(
+                        textColor = Color.Blue,
+                        disabledTextColor = Color.Transparent,
+                        backgroundColor = Color.Transparent,
+                        focusedIndicatorColor = Color.Blue,
+                        unfocusedIndicatorColor = Color.Gray,
+                        disabledIndicatorColor = Color.Transparent,
+                        errorIndicatorColor = Color.Red
+                    ),
+                )
+
+            }
+
             Spacer(Modifier.height(18.dp))
             //login button
             TextButton(
